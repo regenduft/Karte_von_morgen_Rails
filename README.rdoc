@@ -1,28 +1,20 @@
 == README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+This will be a replacement for the backend part of the onYOURway project
+(https://github.com/art-ist/onYOURway/tree/master/onYOURway)
 
-Things you may want to cover:
+"Karte von morgen" (http://kartevonmorgen.org, description: http://bildungsagenten.com/map/) 
+will share its code with the onYOURway project.
+The javascript / html / css frontend code will stay in the onYOURway repository.
 
-* Ruby version
+The api / backend for onYOURway uses Microsoft .NET entity framework and LINQ.
+This project will be an replacement based on open source software.
 
-* System dependencies
+=== Database
+- Initialize: run bin/rake setup
+- Changes: add to folder /db/migrate
 
-* Configuration
+=== Controllers
+===== ApiController
+- /api/index: returns all locations (json)
 
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
-
-
-Please feel free to use a different markup language if you do not plan to run
-<tt>rake doc:app</tt>.
