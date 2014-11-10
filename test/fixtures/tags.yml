@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  type: 
+  cssClass: MyString
+  icon: MyString
+  values: MyString
+  foreignId: MyString
+
+two:
+  type: 
+  cssClass: MyString
+  icon: MyString
+  values: MyString
+  foreignId: MyString
