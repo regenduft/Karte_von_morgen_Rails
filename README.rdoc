@@ -8,7 +8,7 @@ will share its code with the onYOURway project.
 The javascript / html / css frontend code will stay in the onYOURway repository.
 
 The api / backend for onYOURway uses Microsoft .NET entity framework and LINQ.
-This project will be an replacement based on open source software.
+This project will be a replacement based on open source software.
 
 === Database
 - Initialize: run bin/rake setup
