@@ -8,8 +8,8 @@
 
 # Tags
 tagCompany = Category.create(name: "Unternehmen")
-tagEvent = Category.create(name: "Event")
-tagInitiative = Category.create(name: "Initiative")
+tagEvent = Category.create(name: "Events")
+tagInitiative = Category.create(name: "Initiativen")
 
 tagSocial = Category.create(name: "sozial", parent: tagCompany)
 tagBio = Category.create(name: "bio", parent: tagCompany)

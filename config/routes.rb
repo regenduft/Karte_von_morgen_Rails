@@ -1,11 +1,25 @@
 Rails.application.routes.draw do
-  get 'api/index'
+
+  get 'admin/index'
+
+  get 'admin/login', to: 'admin#index'
+
+  post 'admin/login', to: 'admin#login'
+
+  get 'web/index'
+
+  get 'entries/:query', to: 'entries#search'
+
+  resources :entries
+
+  resources :categories
+
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
   # You can have the root of your site routed with "root"
-  # root 'welcome#index'
+  root 'web#index'
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'

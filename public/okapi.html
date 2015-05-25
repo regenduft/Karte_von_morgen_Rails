@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Okapi API Browser</title>
+    <meta name="DC.Rights" content="http://svn.aminus.net/misc/license_bsd.txt">
+<style>
+
+* {
+    /* This is to work around W3C craziness with "standard" widths */
+    -moz-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+}
+
+html, body {
+    margin: 0 !important;
+    padding: 0 !important;
+    font-family: Verdana, sans-serif;
+    height: 100%;
+    width: 100%;
+    text-align: left;
+}
+
+body { background: url('okapibg.png'); }
+
+#lightbox {
+    display: none;
+    background-color: #332222;
+    height: 100%;
+    width: 100%;
+    opacity: 0.75;
+    position: absolute;
+    z-index: 5;
+}
+
+#grid {
+    border-collapse: collapse;
+    height: 100%;
+    border: 0;
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100%;
+}
+
+tr#addressbarrow, td#addressbarcell {
+    height: 1.5em;
+    border: 0;
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100%;
+    vertical-align: top;
+    background-color: transparent;
+}
+
+tr#messagebarrow, td#messagebarcell {
+    height: 1.5em;
+    border: 0;
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100%;
+    vertical-align: top;
+}
+
+tr#messagesrow, td#messagescell {
+    height: 100%;
+    border: 0;
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100%;
+    vertical-align: top;
+}
+
+/* ADDRESS BAR */
+
+#addressbar {
+    color: black;
+    border: 0;
+    border-collapse: collapse;
+    width: 100%;
+    height: 1.5em;
+}
+
+#addressbar, #addressbar tr, #addressbar td {
+    margin: 0;
+    padding: 0;
+}
+
+#urilabel {
+    width: 3em;
+    white-space: nowrap;
+    margin: 0;
+    padding: 0;
+    background-color: white;
+}
+
+#urilabel a {
+    text-decoration: none;
+    color: black;
+}
+
+#urilabel a.disabled {
+    color: #999999;
+}
+
+#uribox {
+    border: 0;
+    background-color: white;
+}
+
+#uri {
+    width: 98%;
+    height: 90%;
+    border: 0;
+    margin-left: 0.5em;
+    color: black;
+    background-color: white;
+}
+
+#methodbox {
+    text-align: right;
+    height: 100%;
+    width: 14em;
+    padding: 0;
+    margin: 0;
+    white-space: nowrap;
+}
+
+input.button {
+    margin: 0;
+    padding: 0 0.1em 0 0.1em;
+    border: 0;
+    height: 100%;
+    cursor: pointer;
+}
+
+#methodbox input.button {
+    background-color: transparent;
+    color: white;
+}
+
+#methodbox input.selected {
+    background-color: transparent;
+}
+
+/* MESSAGE BAR */
+
+#messagebar {
+    background-color: transparent;
+    border-collapse: collapse;
+    color: white;
+    margin: 0;
+    padding: 0;
+    height: 1.5em;
+    width: 100%;
+}
+
+#messagebar input.button {
+    background-color: white;
+    margin-right: 1px;
+    color: #280000;
+}
+
+#messagebar tr, #messagebar td {
+    margin: 0;
+    padding: 0;
+    height: 1.5em;
+    border: 0;
+}
+
+#requestlabel {
+    width: 6em;
+}
+
+#other_actions {
+    text-align: center;
+}
+
+#response_actions {
+    text-align: right;
+}
+
+#responselabel {
+    width: 6em;
+    text-align: right;
+}
+
+
+/* MESSAGES */
+
+#messages {
+    border-collapse: collapse;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    /* Somehow this fixes extraneous viewport scrollbars in FF */
+    overflow: hidden;
+}
+
+#messages tbody, #messages tr, #messages td {
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
+
+#messages, #messages tbody, #messages tr {
+    height: 100%;
+    width: 100%;
+}
+
+#messages td {
+    height: 100%;
+    width: 50%;
+}
+
+#messages td#responsebox {
+    background-color: transparent;
+    color: white;
+    border-left: 2px dotted #331111 !important;
+}
+
+/* HEADER MENUS */
+
+.header_table_envelope {
+    /* display: none; */
+    border-bottom: 2px dotted #331111;
+    width: 100%;
+    height: 25%;
+    margin-top: 0.25em;
+    vertical-align: top;
+    overflow-y: auto;
+}
+
+.header_table {
+    border: 0;
+    border-collapse: collapse;
+    width: 100%;
+    vertical-align: top;
+    margin: 0;
+}
+
+.header_table tr, .header_table td, .header_table th {
+    padding: 0 0.25em 0 0.25em !important;
+    margin: 0;
+    vertical-align: top;
+}
+
+.header_table input.text {
+    width: 100%;
+    font: normal 10pt "Lucida Console", Courier, monospace;
+    border: 0;
+    margin: 0;
+    color: black;
+    background-color: white;
+}
+
+#requestbox {
+    background-color: white;
+}
+
+#request_headers input.button {
+    background-color: white;
+    height: 1em;
+}
+
+#response_headers input.text {
+    background-color: transparent;
+    color: white;
+}
+
+#responsebox > div.header_table_envelope {
+    border-bottom: 2px dotted white;
+}
+
+
+/* MESSAGE BODIES */
+
+#request, #response {
+    height: 74%;
+    width: 100%;
+    padding: 0 0 0 0.5em;
+    display: block;
+    border: 0;
+    font: normal 10pt "Lucida Console", Courier, monospace;
+}
+
+#request {
+    color: black;
+    background-color: white;
+}
+
+#response {
+    background-color: transparent;
+    color: white;
+}
+
+#render_overlay {
+    display: none;
+    position: absolute;
+    height: 80%;
+    width: 80%;
+    top: 3em;
+    right: 10%;
+    background-color: #442222;
+    color: white;
+    border: 4px solid #996666;
+    z-index: 7;
+}
+
+#render_close {
+    float: right;
+    margin: 1em;
+    cursor: pointer;
+}
+
+#render_overlay p {
+    padding: 0.5em;
+    height: 1.5em;
+}
+
+#render_iframe {
+    height: 80%;
+    width: 100%;
+    background-color: white;
+    border-color: #442222;
+}
+
+</style>
+
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.1/jquery.min.js"></script>
+<script type="text/javascript">
+
+function set(a) {
+    // Convert the given array into a set.
+    var o = {};
+    for (var i=0; i < a.length; i++) o[a[i]] = '';
+    return o;
+}
+
+function sanitize (s) {
+    // Sanitize HTML values in the given string.
+    return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+function stripws(s) {
+    return s.replace(/(^\s+)|(\s+$)/g, "");
+}
+
+function make_header_row(cls, k, v) {
+    return ("<tr class='" + cls + "_header_row'>" +
+            "<td><input type='text' class='text' value='" + k + "'></td>" +
+            "<td><input type='text' class='text' value='" + stripws(v) + "'></td></tr>");
+}
+
+function highlight_method(method) {
+    $("#methodbox input").removeClass("selected");
+    var target = $("#methodbox input#do" + method)
+    if (target.length) {
+        target.addClass("selected");
+    } else {
+        target = $("#methodbox input#doCustom");
+        target.addClass("selected");
+        target.title = method;
+    }
+}
+
+var okapi_history = [];
+var okapi_history_pointer = -1;
+
+var HistoryItem = function (uri, method, request_headers, request_body,
+                            response_headers, response_body) {
+    this.uri = uri;
+    this.method = method;
+    this.request_headers = request_headers;
+    this.request_body = request_body;
+    this.response_headers = response_headers;
+    this.response_body = response_body;
+};
+
+function make_request(uri, method, body) {
+    if (method == null) method = 'GET';
+    highlight_method(method);
+    
+    var request_headers = [];
+    
+    function ajax_before_send (XMLHttpRequest) {
+        $("#request_headers tr.request_header_row").each(
+            function (i) {
+                var row = $(this);
+                var key = row.find("td:first > input").val();
+                var value = row.find("td:last > input").val();
+                if (key != null && key != '' && value != null && value != '') {
+                    request_headers.push([key, value]);
+                    XMLHttpRequest.setRequestHeader(key, value);
+                } else {
+                    row.remove();
+                }
+            }
+        );
+    }
+    
+    function ajax_error (XMLHttpRequest, textStatus, errorThrown) {
+        ajax_success(XMLHttpRequest.responseText, textStatus);
+    }
+    
+    function ajax_success(data, textStatus) {
+        var response_headers = [];
+        
+        // Response body
+        $("#response").val(data);
+        
+        // Headers
+        var headers = $("#response_headers > tbody");
+        headers.empty();
+        
+        // Status "header"
+        var k = 'Status "header"';
+        var v = sanitize(xhr.status.toString() + ' ' + xhr.statusText);
+        headers.append(make_header_row('response', k, v));
+        response_headers.push([k, v]);
+        
+        // Real headers
+        var lines = xhr.getAllResponseHeaders().split("\n");
+        for (var i=0; i < lines.length; i++) {
+            var line = lines[i].replace('\r', '');
+            if (line.length != 0) {
+                // TODO: sanitize quote marks
+                var atoms = sanitize(line).match(/^([^\:]+)\: ?(.+)$/);
+                if (atoms != null) {
+                    var k = atoms[1], v = atoms[2];
+                    headers.append(make_header_row('response', k, v));
+                    response_headers.push([atoms[1], atoms[2]]);
+                }
+            }
+        }
+        
+        // History
+        // First, slice off any 'Forward' entries
+        okapi_history = okapi_history.slice(0, okapi_history_pointer + 1);
+        // Then, add our new entry
+        okapi_history.push(new HistoryItem(uri, method, request_headers, body, response_headers, data));
+        okapi_history_pointer = okapi_history_pointer + 1;
+        sync_history_buttons();
+    }
+    
+    // It is STRONGLY recommended you change your server to issue 307
+    // when redirecting PUT/POST/DELETE; otherwise (with 301/302/303),
+    // Firefox, and maybe others, will automatically redirect PUT to GET.
+    var xhr = jQuery.ajax({type: method, url: uri,
+                           data: body,
+                           processData: false,
+                           dataType: 'text',
+                           beforeSend: ajax_before_send,
+                           error: ajax_error, success: ajax_success});
+}
+
+function render_response() {
+    if (window.frames['render_iframe']) {
+        // IE
+        var fd = window.frames['render_iframe'].document;
+    } else {
+        var fd = document.getElementById('render_iframe').contentWindow.document;
+    }
+    
+    var ct = get_response_header('Content-Type');
+    var data = $("#response").val();
+    
+    var render_mode = $("input[@name=render_mode]:checked").val();
+    if (render_mode == 'document_write') {
+        fd.open();
+        fd.write(data);
+        fd.close();
+    } else if (render_mode == 'inner_html') {
+        fd.body.innerHTML = data;
+    } else if (render_mode == 'data_url') {
+        fd.location = 'data:' + ct + ',' + encodeURIComponent(data);
+    }
+}
+
+function toggle_render_response() {
+    var bg = $('#lightbox');
+    var f = $('#render_overlay');
+    if (f.css('display') == 'none') {
+        render_response();
+        f.fadeIn(500);
+        bg.fadeIn(500);
+    } else {
+        f.fadeOut(500);
+        bg.fadeOut(500);
+    }
+}
+
+known_methods = {
+    "GET": {safe: true, body: false},
+    "HEAD": {safe: true, body: false},
+    "PUT": {safe: false, body: true},
+    "POST": {safe: false, body: true},
+    "DELETE": {safe: false, body: false}
+}
+
+function do_method(method) {
+    if (method in known_methods) {
+        var body = (known_methods[method].body) ? $('#request').val() : null;
+        make_request($('#uri').val(), method, body);
+    }
+    return false;
+}
+
+function custom_method() {
+    var method = prompt("HTTP method");
+    var body = prompt("Include a request body?");
+    var body = (body.toLowerCase().charAt(0) == 'y') ? $('#request').val() : null;
+    make_request($('#uri').val(), method, body);
+    return false;
+}
+
+function get_response_header(name) {
+    name = name.toLowerCase();
+    var result = null;
+    $("#response_headers tr.response_header_row").each(
+        function (i) {
+            var row = $(this);
+            var key = row.find("td:first > input").val();
+            if (key != null && key.toLowerCase() == name) {
+                var value = row.find("td:last > input").val();
+                if (value != null) {
+                    result = value;
+                    // Stop the callback loop.
+                    return false;
+                }
+            }
+        }
+    );
+    return result;
+}
+
+function set_request_header(name, value) {
+    var found = false;
+    var lowname = name.toLowerCase();
+    $("#request_headers tr.request_header_row").each(
+        function (i) {
+            var row = $(this);
+            var key = row.find("td:first > input").val();
+            if (key != null && key.toLowerCase() == lowname) {
+                row.find("td:last > input").val(value);
+                found = true;
+                // Stop the callback loop.
+                return false;
+            }
+        }
+    );
+    if (!found) add_request_header(name, value);
+}
+
+function Copy_click() {
+    $('#request').val($('#response').val());
+    var ct = get_response_header('Content-Type');
+    if (ct != null) set_request_header('Content-Type', ct);
+    return false;
+}
+
+function URI_keypress(e) {
+    if (!e) var e = window.event;
+    if (e.keyCode) { code = e.keyCode; }
+    else { if (e.which) code = e.which; }
+    if (code == 13) return do_method('GET');
+}
+
+function toggle_header_menu(pane) {
+    var headers = jQuery('#' + pane + '_headers').parent('div');
+    var body = jQuery('#' + pane);
+    if (headers.css('display') == 'none') {
+        body.css('height', '75%');
+        headers.fadeIn(250);
+    } else {
+        headers.fadeOut(250);
+        body.css('height', '100%');
+    }
+}
+
+function add_request_header(name, value) {
+    // TODO: sanitize quote marks
+    if (name == null) name = 'Content-Type';
+    if (value == null) value = 'application/json';
+    var headers = $("#request_headers > tbody");
+    headers.append(make_header_row('request', name, value));
+}
+
+function sync_history_buttons() {
+    if (okapi_history_pointer > 0) {
+        $('#back').removeClass('disabled');
+    } else {
+        $('#back').addClass('disabled');
+    }
+    if (okapi_history_pointer < (okapi_history.length - 1)) {
+        $('#forward').removeClass('disabled');
+    } else {
+        $('#forward').addClass('disabled');
+    }
+}
+
+function restore_history(hist) {
+    $('#uri').val(hist.uri);
+    
+    highlight_method(hist.method);
+    
+    var headers = $("#request_headers > tbody");
+    headers.empty();
+    for (var i in hist.request_headers) {
+        var h = hist.request_headers[i];
+        headers.append(make_header_row('request', h[0], h[1]));
+    }
+    $('#request').val(hist.request_body);
+    
+    var headers = $("#response_headers > tbody");
+    headers.empty();
+    for (var i in hist.response_headers) {
+        var h = hist.response_headers[i];
+        headers.append(make_header_row('response', h[0], h[1]));
+    }
+    $('#response').val(hist.response_body);
+}
+
+function go_back() {
+    if (okapi_history_pointer > 0) {
+        okapi_history_pointer = okapi_history_pointer - 1;
+        var hist = okapi_history[okapi_history_pointer];
+        restore_history(hist);
+        sync_history_buttons();
+    }
+}
+
+function go_forward() {
+    if (okapi_history_pointer < (okapi_history.length - 1)) {
+        okapi_history_pointer = okapi_history_pointer + 1;
+        var hist = okapi_history[okapi_history_pointer];
+        restore_history(hist);
+        sync_history_buttons();
+    }
+}
+
+</script>
+</head>
+
+<body>
+<div id='lightbox'></div>
+<table id='grid'>
+<tr id='addressbarrow'><td id='addressbarcell'>
+    <table id='addressbar'>
+    <tr>
+        <th id='urilabel'><a
+            id='back' class='disabled' href='#' onClick='go_back();'>&#x25C0;</a><a
+            id='forward' class='disabled' href='#' onClick='go_forward();'>&#x25B6;</a>URI</th>
+        <td id='uribox'><input id='uri' name='uri' type='text' class='text' size='0'
+            onKeyPress='URI_keypress(event)'></td>
+        <td id='methodbox'><input
+            id='doGET' type='button' class='button' value='GET' onClick='do_method("GET");'><input
+            id='doHEAD' type='button' class='button' value='HEAD' onClick='do_method("HEAD");'><input
+            id='doPUT' type='button' class='button' value='PUT' onClick='do_method("PUT");'><input
+            id='doPOST' type='button' class='button' value='POST' onClick='do_method("POST");'><input
+            id='doDELETE' type='button' class='button' value='DELETE' onClick='do_method("DELETE");'><input
+            id='doCustom' type='button' class='button' value='Custom' onClick='custom_method();'>
+        </td>
+    </tr>
+    </table>
+</td></tr>
+<tr id='messagebarrow'><td id='messagebarcell'>
+    <table id='messagebar'>
+    <tr>
+        <th id='requestlabel'>Request</th>
+        <td id='request_actions'><input
+            id='request_header_toggle' type='button' class='button' value='&#x25BC; Headers &#x25BC;'
+            onClick='toggle_header_menu("request")'></td>
+        <td id='other_actions'><input
+            id='copy' type='button' class='button' value='&#x25C0; Copy &#x25C0;'
+            onClick='Copy_click();'></td>
+        <td id='response_actions'><input
+            id='render_response_toggle' type='button' class='button' value='Render'
+            onClick='toggle_render_response()'><input
+            id='response_header_toggle' type='button' class='button' value='&#x25BC; Headers &#x25BC;'
+            onClick='toggle_header_menu("response")'></td>
+        <th id='responselabel'>Response</th>
+    </tr>
+    </table>
+</td></tr>
+<tr id='messagesrow'><td id='messagescell'>
+    <table id='messages'>
+    <tr>
+        <div id='render_overlay'><div
+            id='render_close' onClick='toggle_render_response()'>X</div><p
+            id='render_options'>Render mode: <input checked='checked'
+                id='render_document_write' type='radio' name='render_mode'
+                value='document_write' onClick='render_response()'><label
+                for='render_document_write'>document.write</label><input
+                id='render_data_url' type='radio' name='render_mode'
+                value='data_url' onClick='render_response()'><label
+                for='render_data_url'>data:</label><input
+                id='render_inner_html' type='radio' name='render_mode'
+                value='inner_html' onClick='render_response()'><label
+                for='render_inner_html'>innerHTML</label></p><iframe
+            id='render_iframe' src=''></iframe></div>
+        <td id='requestbox'><div class='header_table_envelope'><table
+            id='request_headers' class='header_table'>
+            <thead>
+                <tr><th>Header Name <input type='button' class='button'
+                    id='add_request_header_button' value='+'
+                    onClick='add_request_header();'></th><th>Value</th></tr>
+            </thead>
+            <tbody>
+            <tr class='request_header_row'><td><input type='text' class='text' value='Content-Type'></td>
+                <td><input type='text' class='text' value='application/json'></td></tr>
+            </tbody></table></div><textarea id='request' name='request'></textarea></td>
+        <td id='responsebox'><div class='header_table_envelope'><table
+            id='response_headers' class='header_table'>
+            <thead><tr><th>Header Name</th><th>Value</th></tr></thead>
+            <tbody></tbody></table></div><textarea id='response' name='response'></textarea></td>
+    </tr>
+    </table>
+</td></tr>
+</table>
+</body>
+</html>
+
