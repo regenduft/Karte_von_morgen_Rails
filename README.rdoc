@@ -14,7 +14,28 @@ This project will be a replacement based on open source software.
 - Initialize: run bin/rake setup
 - Changes: add to folder /db/migrate
 
-=== Controllers
-===== ApiController
-- /api/index: returns all locations (json)
+=== Urls
+http://petricho.arcturus.uberspace.de
 
+To TEST the REST API you may use this tool:
+http://petricho.arcturus.uberspace.de/okapi.html
+ 
+=== API CALLS
+GET /entries
+GET /entries/$SEARCHTERMS
+(finds by name, city, category-names, space-separated search terms, results contain ALL searchterms
+
+POST /entries (add)
+PUT /entries/$ID (change)
+
+GET /categories
+POST /categories
+PUT /categories/$ID
+ 
+To add or change you will need to login via 
+
+POST /admin/login
+
+You may POST {"user":"kvm", "password":"***"} in conjuction with header
+Content-Type: application/json, or just post a www-from with the same user/password combination.
+You'll need to replace *** with the correct password.
