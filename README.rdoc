@@ -22,14 +22,13 @@ To TEST the REST API you may use this tool:
  
 === API CALLS
 * GET /entries
-* GET /entries/$SEARCHTERMS
-(finds by name, city, category-names, space-separated search terms, results contain ALL searchterms
-* POST /entries (add)
-* PUT /entries/$ID (change)
+* GET /entries/$SEARCHTERMS - finds by name, city, category-names, space-separated search terms, results contain ALL searchterms
+* POST /entries - add
+* PUT /entries/$ID - change
 
 * GET /categories
-* POST /categories
-* PUT /categories/$ID
+* POST /categories - add
+* PUT /categories/$ID - change
  
 To add or change you will need to login via 
 
