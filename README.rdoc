@@ -36,6 +36,7 @@ To add or change you will need to login via
 * POST /admin/login
 
 You may POST {"user":"kvm", "password":"***"} in conjuction with header
-Content-Type: application/json, or just post a www-form with the same user/password combination.
+* Content-Type: application/json
+or just post a www-form with the same user/password combination.
 
 You'll need to replace *** with the correct password.
