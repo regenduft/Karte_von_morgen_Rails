@@ -6615,3 +6615,42 @@ ActionController::ParameterMissing (param is missing or the value is empty: entr
   Rendered /home/petricho/.gem/gems/actionpack-4.2.1/lib/action_dispatch/middleware/templates/rescues/_trace.text.erb (1.3ms)
   Rendered /home/petricho/.gem/gems/actionpack-4.2.1/lib/action_dispatch/middleware/templates/rescues/_request_and_response.text.erb (1.5ms)
   Rendered /home/petricho/.gem/gems/actionpack-4.2.1/lib/action_dispatch/middleware/templates/rescues/diagnostics.text.erb (27.1ms)
+
+
+Started GET "/" for 80.187.111.10 at 2015-05-25 18:32:34 +0200
+Processing by WebController#index as HTML
+  Rendered web/index.html.erb within layouts/application (0.1ms)
+Completed 200 OK in 65ms (Views: 64.0ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/admin.css?body=1" for 80.187.111.10 at 2015-05-25 18:32:34 +0200
+
+
+Started GET "/assets/application.css?body=1" for 80.187.111.10 at 2015-05-25 18:32:34 +0200
+
+
+Started GET "/assets/api.css?body=1" for 80.187.111.10 at 2015-05-25 18:32:34 +0200
+
+
+Started GET "/assets/web.css?body=1" for 80.187.111.10 at 2015-05-25 18:32:34 +0200
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 80.187.111.10 at 2015-05-25 18:32:34 +0200
+
+
+Started GET "/assets/jquery.js?body=1" for 80.187.111.10 at 2015-05-25 18:32:34 +0200
+
+
+Started GET "/assets/turbolinks.js?body=1" for 80.187.111.10 at 2015-05-25 18:32:34 +0200
+
+
+Started GET "/assets/admin.js?body=1" for 80.187.111.10 at 2015-05-25 18:32:34 +0200
+
+
+Started GET "/assets/web.js?body=1" for 80.187.111.10 at 2015-05-25 18:32:34 +0200
+
+
+Started GET "/assets/api.js?body=1" for 80.187.111.10 at 2015-05-25 18:32:34 +0200
+
+
+Started GET "/assets/application.js?body=1" for 80.187.111.10 at 2015-05-25 18:32:34 +0200
