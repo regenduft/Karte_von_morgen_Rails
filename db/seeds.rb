@@ -7,113 +7,60 @@
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
 # Tags
-tagSocial = Tag.create(
-    cssClass: "social",
-    icon: "social",
-    values: "Soziales")
+tagCompany = Category.create(name: "Unternehmen")
+tagEvent = Category.create(name: "Event")
+tagInitiative = Category.create(name: "Initiative")
 
-tagFair = Tag.create(
-	cssClass: "fair",
-	icon: "fair",
-	values: "Fairtrade",
-	parents: [tagSocial])
-
-tagOeko = Tag.create(
-    cssClass: "eco",
-    icon: "eco",
-    values: "Ökologisch")
-
-tagBio = Tag.create(
-	cssClass: "eco",
-	icon: "eco",
-	values: "Bio",
-	parents: [tagOeko])
-
-tagLocal = Tag.create(
-	cssClass: "local",
-	icon: "local",
-	values: "Lokal",
-	parents: [tagOeko])
+tagSocial = Category.create(name: "sozial", parent: tagCompany)
+tagBio = Category.create(name: "bio", parent: tagCompany)
+tagFair = Category.create(name: "fair", parent: tagInitiative)
+tagLocal = Category.create(name: "local", parent: tagCompany)
 
 # Locations
-weltladen = Location.create(
+weltladen = Entry.create(
 	name: "Weltladen", 
 	position: "49.632109,8.360786", 
-	lang: "de", 
-	country: "DE", 
 	city: "Worms", 
 	zip: "67549", 
-	street: "Obermarkt", 
-	houseNumber: 4, 
+	street: "Obermarkt 4", 
 	phone: "06241 973837", 
-	createdBy: 0, 
-	modifiedBy: nil, 
-	icon: "fair", 
+	url: "http://www.weltladen.de/worms",
 	openingHours: "Mo-Fr 10:00-18:00; Sa 10:00-16:00; PH closed", 
 	description: "Weltladen Worms",
-	tags: [tagFair])
+	categories: [tagFair])
 
-denns = Location.create(
+denns = Entry.create(
 	name: "denn's", 
 	position: "49.62711,8.36255", 
-	lang: "de", 
-	country: "DE", 
 	city: "Worms", 
 	zip: "67547", 
-	street: "Schönauer Straße", 
-	houseNumber: 16, 
+	street: "Schönauer Straße 16", 
 	phone: "06241 6787877", 
-	createdBy: 0, 
-	modifiedBy: nil, 
-	icon: "eco", 
+	url: "http://www.denns-biomarkt.de/10424_worms.html",
 	openingHours: "08:00-20:00; Su,PH closed", 
 	description: "denn's Biomarkt Worms",
-	tags: [tagBio])
+	categories: [tagBio])
 
-reformhaus = Location.create(
+reformhaus = Entry.create(
 	name: "Reformhaus", 
 	position: "49.631395,8.363943", 
-	lang: "de", 
-	country: "DE", 
 	city: "Worms", 
 	zip: "67549", 
-	street: "Am Römischen Kaiser", 
-	houseNumber: 14, 
+	street: "Am Römischen Kaiser 14", 
 	phone: "06241 973837", 
-	createdBy: 0, 
-	modifiedBy: nil, 
-	icon: "fair", 
 	openingHours: "Mo-Fr 10:00-18:00; Sa 10:00-16:00; PH closed", 
 	description: "Wormser Reformhaus Franz",
-	tags: [tagBio])
+	categories: [tagBio])
 
-kreuzhof = Location.create(
+kreuzhof = Entry.create(
 	name: "Hofladen Kreuzhof", 
 	position: "49.596566,8.458893", 
-	lang: "de", 
-	country: "DE", 
 	city: "Lampertheim", 
 	zip: "68623", 
 	street: "Biedensandstraße 33", 
-	houseNumber: 14, 
 	phone: "06206 4771", 
-	createdBy: 0, 
-	modifiedBy: nil, 
-	icon: "local", 
+	url: "http://www.kreuzhof-karb.de/",
 	openingHours: "Tu-Fr 09:00-19:00; Sa 08:00-13:00; Mo,PH closed", 
 	description: "Kreuzhofbauer Edyta und Heinz Karb",
-	tags: [tagLocal])
-
-# Links
-Link.create(
-	location: kreuzhof,
-	url: "http://www.kreuzhof-karb.de/")
-
-Link.create(
-	location: weltladen,
-	url: "http://www.weltladen.de/worms")
-
-Link.create(
-	location: denns,
-	url: "http://www.denns-biomarkt.de/10424_worms.html")
+	categories: [tagLocal])
 

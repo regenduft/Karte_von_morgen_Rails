@@ -3,18 +3,16 @@ class ApiController < ApplicationController
   # serialize all Locations from the database as json, 
   # including associated tags and links
   def index
-  	locations = Location.all
+  	entries = Entry.all
 
   	# collect associated entities into separate arrays
-  	links = []
-  	tags = []
-  	locations.includes(:tags).includes(:links).each do |location|
-  		tags.push location.tags
-  		links.push location.links
+  	categories = []
+  	entries.includes(:categories).each do |entry|
+  		categories.push entry.categories
   	end
   	# TODO: find out how to serialize the associated entities inline
 
-  	render json: {locations: locations, links: links, tags: tags}
+  	render json: {entries: entries, categories: categories}
   end
 
 end

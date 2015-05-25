@@ -13,66 +13,38 @@
 
 ActiveRecord::Schema.define(version: 20141109203817) do
 
-  create_table "has_tags", id: false, force: true do |t|
-    t.integer  "location_id"
-    t.integer  "tag_id"
-    t.integer  "percentage"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "has_tags", ["location_id"], name: "index_has_tags_on_location_id"
-  add_index "has_tags", ["tag_id"], name: "index_has_tags_on_tag_id"
-
-  create_table "links", force: true do |t|
-    t.integer  "location_id"
-    t.string   "lang"
-    t.string   "tag"
-    t.string   "url"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "links", ["location_id"], name: "index_links_on_location_id"
-
-  create_table "locations", force: true do |t|
+  create_table "categories", force: :cascade do |t|
+    t.integer  "parent_id"
     t.string   "name"
-    t.string   "lang"
-    t.string   "country"
-    t.string   "province"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "categories", ["parent_id"], name: "index_categories_on_parent_id"
+
+  create_table "entries", force: :cascade do |t|
+    t.string   "name"
+    t.string   "description"
     t.string   "city"
     t.string   "zip"
     t.string   "street"
-    t.string   "houseNumber"
     t.string   "phone"
-    t.integer  "createdBy"
-    t.integer  "modifiedBy"
+    t.string   "email"
+    t.string   "url"
     t.string   "position"
-    t.string   "icon"
     t.string   "openingHours"
-    t.string   "description"
-    t.string   "type"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "tag_is_a", id: false, force: true do |t|
-    t.integer "tag_id"
-    t.integer "parent_id"
-    t.integer "position"
-  end
-
-  add_index "tag_is_a", ["parent_id"], name: "index_tag_is_a_on_parent_id"
-  add_index "tag_is_a", ["tag_id"], name: "index_tag_is_a_on_tag_id"
-
-  create_table "tags", force: true do |t|
-    t.string   "type"
-    t.string   "cssClass"
-    t.string   "icon"
-    t.string   "values"
-    t.string   "foreignId"
+  create_table "has_categories", id: false, force: :cascade do |t|
+    t.integer  "entry_id"
+    t.integer  "category_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "has_categories", ["category_id"], name: "index_has_categories_on_category_id"
+  add_index "has_categories", ["entry_id"], name: "index_has_categories_on_entry_id"
 
 end
