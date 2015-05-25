@@ -21,20 +21,19 @@ To TEST the REST API you may use this tool:
 http://petricho.arcturus.uberspace.de/okapi.html
  
 === API CALLS
-GET /entries
-GET /entries/$SEARCHTERMS
+* GET /entries
+* GET /entries/$SEARCHTERMS
 (finds by name, city, category-names, space-separated search terms, results contain ALL searchterms
+* POST /entries (add)
+* PUT /entries/$ID (change)
 
-POST /entries (add)
-PUT /entries/$ID (change)
-
-GET /categories
-POST /categories
-PUT /categories/$ID
+* GET /categories
+* POST /categories
+* PUT /categories/$ID
  
 To add or change you will need to login via 
 
-POST /admin/login
+* POST /admin/login
 
 You may POST {"user":"kvm", "password":"***"} in conjuction with header
 Content-Type: application/json, or just post a www-from with the same user/password combination.
