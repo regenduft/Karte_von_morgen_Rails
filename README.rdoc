@@ -15,10 +15,10 @@ This project will be a replacement based on open source software.
 - Changes: add to folder /db/migrate
 
 === Urls
-http://petricho.arcturus.uberspace.de
+* http://petricho.arcturus.uberspace.de
 
 To TEST the REST API you may use this tool:
-http://petricho.arcturus.uberspace.de/okapi.html
+* http://petricho.arcturus.uberspace.de/okapi.html
  
 === API CALLS
 * GET /entries
@@ -36,5 +36,6 @@ To add or change you will need to login via
 * POST /admin/login
 
 You may POST {"user":"kvm", "password":"***"} in conjuction with header
-Content-Type: application/json, or just post a www-from with the same user/password combination.
+Content-Type: application/json, or just post a www-form with the same user/password combination.
+
 You'll need to replace *** with the correct password.
